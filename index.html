@@ -3,27 +3,89 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Austyn's Projects</title>
-<meta name="description" content="Things Austyn has built, and how long each one took.">
+<title>Trackr</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600&display=swap">
-<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
 <div class="wrap">
-  <header class="hero">
-    <h1>Austyn's Projects</h1>
-    <p class="lede">Things I'm building, and how long each one took.</p>
-    <dl class="totals" id="totals"></dl>
+  <header class="top">
+    <div>
+      <div class="eyebrow" id="date"></div>
+      <h1 id="greet">Hi, <mark>Austyn</mark></h1>
+    </div>
+    <div class="clockbox"><span class="sync" id="sync">Saved on this device</span><span class="clock num" id="clock">--:--</span></div>
   </header>
 
-  <main id="projects"></main>
+  <section class="world" id="world" aria-label="World clocks"></section>
 
-  <footer>Made by Austyn · <span id="year"></span></footer>
+  <div class="summary">
+    <div class="stat"><span class="eyebrow">Next due</span><span class="v num" id="sNext">–</span><span class="s" id="sNextWhat">Loading</span></div>
+    <div class="stat"><span class="eyebrow">Next on calendar</span><span class="v num" style="color:var(--pen)">Soon</span><span class="s">Google Calendar coming soon</span></div>
+    <div class="stat"><span class="eyebrow">Free before 9 PM</span><span class="v num">Soon</span><span class="s">Needs your calendar</span></div>
+    <div class="stat"><span class="eyebrow">Unread from people</span><span class="v num">Soon</span><span class="s">Gmail coming soon</span></div>
+  </div>
+
+  <div class="daybar" aria-hidden="true">
+    <div class="track"><i id="dayFill"></i></div>
+    <div class="row"><span>8 AM</span><span id="dayLeft"></span><span>Midnight</span></div>
+  </div>
+
+  <div class="grid">
+    <div class="col">
+      <section class="panel now" id="nowPanel" aria-label="Right now"></section>
+
+      <section class="panel" aria-labelledby="h-hw">
+        <div class="panel-head"><h2 id="h-hw">Assignments</h2><div class="btnrow" style="align-items:center"><span class="eyebrow" id="hwMeta">Loading…</span><button class="btn small ghost" type="button" id="toggleDone" hidden></button></div></div>
+        <div class="note">Coming soon: Brightspace due dates will show up here on their own, and Claude will break assignments into tiny steps for you. For now, add them yourself below.</div>
+        <div class="tasks" id="hw"></div>
+        <form class="add-form" id="addForm" autocomplete="off">
+          <label class="f f-title">Add one yourself<input type="text" id="fTitle" placeholder="e.g. Email advisor about registration" required maxlength="120"></label>
+          <label class="f">Class<input type="text" id="fCourse" placeholder="CHEM 101" maxlength="60"></label>
+          <label class="f">Due (optional)<input type="datetime-local" id="fDue"></label>
+          <label class="f">Guess (min)<input type="number" id="fEst" min="5" step="5" placeholder="45"></label>
+          <button class="btn primary" type="submit">Add</button>
+        </form>
+        <div class="note" id="hwNote" hidden></div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="panel" aria-labelledby="h-cal">
+        <div class="panel-head"><h2 id="h-cal">Today</h2><span class="eyebrow">Google Calendar</span></div>
+        <div class="note">Coming soon: today's classes and events from your Google Calendar will show up here.</div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-park">
+        <div class="panel-head"><h2 id="h-park">Parking lot</h2><span class="eyebrow">Park it, don't do it</span></div>
+        <form class="park-form" id="parkForm" autocomplete="off">
+          <input type="text" id="parkInput" placeholder="Random thought? Drop it here" aria-label="Thought to park" maxlength="200">
+          <button class="btn" type="submit">Park</button>
+        </form>
+        <ul class="park-list" id="parkList"></ul>
+      </section>
+
+      <section class="panel" aria-labelledby="h-mail">
+        <div class="panel-head"><h2 id="h-mail">Inbox</h2><span class="eyebrow">Primary · 14 days</span></div>
+        <div class="note">Coming soon: recent emails from real people (not newsletters) will show up here.</div>
+      </section>
+    </div>
+  </div>
+
+  <section class="stats" aria-label="How it's going">
+    <div class="stat"><span class="eyebrow">Steps done today</span><span class="big num" id="todayCount">0</span><div class="week" id="week"></div><p>Last 7 days</p></div>
+    <div class="stat"><span class="eyebrow">Focus time today</span><span class="big num" id="focusToday">0m</span><p>Timer sessions log here and on the assignment.</p></div>
+    <div class="stat"><span class="eyebrow">Your time guesses</span><span class="big num" id="estRatio">–</span><p id="estNote">Finish an assignment with a guess and some timer time to see how your guesses compare.</p></div>
+  </section>
+
+  <footer>Saved in this browser on this device. Google Calendar, Gmail and Claude step breakdowns are coming soon.</footer>
 </div>
+<div class="toast" id="toast" hidden></div>
 
-<script src="js/projects.js"></script>
-<script src="js/site.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
